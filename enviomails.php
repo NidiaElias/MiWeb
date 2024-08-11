@@ -11,8 +11,21 @@
 
 <?php
 
+$servidor = "";
+$usuario_mail = "";
+$password_mail = "";
+
 require("class.phpmailer.php");
 require("class.smtp.php");
+//si no encuentro datos de acceso externo lo lleno a mano
+//completar con datos reales o no funcionará
+if (!@include_once("datos_de_acceso.php")){
+  $servidor = 'aaa.com';
+  $usuario_mail = 'clase@a.com.ar';
+  $password_mail = '1234';
+}
+
+
 
 $mantenimiento = false;
 $ipcliente = $_SERVER['REMOTE_ADDR'];
@@ -47,13 +60,13 @@ else
   $mail = new PHPMailer;
   $mail->IsSMTP();                                     
   $mail->SMTPAuth = true;
-  $mail->Host = 'c2211826.ferozo.com'; //Siempre igual, es la web
+  $mail->Host = $servidor; //Siempre igual, es la web
   $mail->Port = 465;
-  $mail->Username = 'clases@msishop.com.ar'; //Cuenta real creada en nuestra web
+  $mail->Username = $usuario_mail; //Cuenta real creada en nuestra web
   // ^^ La cuenta que va acá arriba SÍ O SÍ es una cuenta real que envía mails desde nuestra web.
-  $mail->Password = 'Erdocia@01'; //Contraseña real de la cuenta de mail en nuestra web
+  $mail->Password = $password_mail; //Contraseña real de la cuenta de mail en nuestra web
   $mail->SMTPSecure = 'ssl';
-  $mail->From = 'clases@msishop.com.ar'; // Cuenta que envía desde el servidor. Igual a $mail->Username
+  $mail->From = $usuario_mail; // Cuenta que envía desde el servidor. Igual a $mail->Username
   $mail->FromName = "Consulta de $nombre"; // Nombre de quién envía, se llena a mano a gusto
   $mail->AddReplyTo($email, $nombre);  //A quién responder el mail. Igual a $mail->Username
   $mail->AddAddress($to['email'],$to['name']);
@@ -79,10 +92,10 @@ else
   $mail = new PHPMailer;
   $mail->IsSMTP();                                     
   $mail->SMTPAuth = true;
-  $mail->Host = 'c2211826.ferozo.com';
+  $mail->Host = $servidor;
   $mail->Port = 465;
-  $mail->Username = 'clases@msishop.com.ar'; //Cuenta real que envía el mail desde nuestra web
-  $mail->Password = 'Erdocia@01'; //Contraseña
+  $mail->Username = $usuario_mail; //Cuenta real que envía el mail desde nuestra web
+  $mail->Password = $password_mail; //Contraseña
   $mail->SMTPSecure = 'ssl';
   $mail->From = 'no-reply@msishop.com.ar'; // no-reply quiere decir que el cliente no puede contestar el mail
   $mail->FromName = "Clases de matemática";
